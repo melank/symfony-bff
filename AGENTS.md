@@ -20,11 +20,23 @@ AIエージェントがこのリポジトリで作業する際のガイドライ
    - コントローラーはルーティングとレスポンス生成のみ
    - ビジネスロジックはServiceクラスに配置
 
-2. **PHP 8.5の機能を活用**
-   - Constructor property promotion
-   - Named arguments
-   - Attributes（アノテーションの代わり）
-   - Union types, readonly properties
+2. **PHP 8.5の最新言語仕様を積極的に使用（必須）**
+
+   以下の機能は必ず使用すること：
+
+   | 機能 | 用途 | 例 |
+   |------|------|-----|
+   | Constructor property promotion | コンストラクタ引数 | `public function __construct(private readonly string $name)` |
+   | Property hooks | ゲッター/セッター代替 | `public string $name { get => ...; set => ...; }` |
+   | Asymmetric visibility | 読み取り専用プロパティ | `public private(set) string $id;` |
+   | Pipe operator | データ変換チェーン | `$x \|> trim(...) \|> strtolower(...)` |
+   | Named arguments | 可読性向上 | `request(method: 'POST', url: $url)` |
+   | Match expression | switch文の代替 | `match($code) { 200 => 'OK', ... }` |
+   | Null safe operator | null安全なチェーン | `$user?->profile?->name` |
+   | First-class callable | コールバック | `array_map($obj->method(...), $items)` |
+   | readonly class | 不変DTO | `readonly class UserDTO { ... }` |
+   | Enum | 列挙型 | `enum Status: string { case ACTIVE = 'active'; }` |
+   | Union/Intersection types | 複合型 | `string\|array`, `Countable&Iterator` |
 
 3. **型安全性を重視**
    - すべてのメソッドに戻り値型を宣言

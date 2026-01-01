@@ -55,7 +55,106 @@ composer require <package>    # パッケージ追加
 - PSR-12準拠
 - Symfonyベストプラクティスに従う
 - コントローラーは薄く、ロジックはサービスに
-- 型宣言を必ず使用（PHP 8.5の機能を活用）
+- 型宣言を必ず使用
+- **PHP 8.5の最新言語仕様を積極的に使用すること**
+
+## PHP 8.5 言語仕様（必須）
+
+このプロジェクトではPHP 8.5の最新機能を積極的に活用します。
+
+### 必須で使用する機能
+
+```php
+// 1. Constructor property promotion + readonly
+class UserService
+{
+    public function __construct(
+        private readonly HttpClientInterface $httpClient,
+        private readonly string $apiEndpoint,
+    ) {}
+}
+
+// 2. Property hooks（ゲッター/セッターの代替）
+class User
+{
+    public string $fullName {
+        get => $this->firstName . ' ' . $this->lastName;
+    }
+
+    public string $email {
+        set => strtolower($value);
+    }
+}
+
+// 3. Asymmetric visibility（非対称可視性）
+class Entity
+{
+    public private(set) string $id;      // 外部から読み取り可、書き込み不可
+    public protected(set) int $count;    // 継承クラスからのみ書き込み可
+}
+
+// 4. Pipe operator（パイプ演算子）
+$result = $input
+    |> trim(...)
+    |> strtolower(...)
+    |> ucfirst(...);
+
+// 5. Named arguments（名前付き引数）
+$response = $this->httpClient->request(
+    method: 'POST',
+    url: $endpoint,
+    options: ['json' => $data],
+);
+
+// 6. Match expression（match式）
+$statusText = match($statusCode) {
+    200 => 'OK',
+    404 => 'Not Found',
+    500 => 'Internal Server Error',
+    default => 'Unknown',
+};
+
+// 7. Null safe operator（null安全演算子）
+$userName = $user?->getProfile()?->getName();
+
+// 8. First-class callable syntax
+$callback = $this->someMethod(...);
+array_map($transformer->transform(...), $items);
+```
+
+### 推奨パターン
+
+```php
+// DTOはreadonlyクラスで定義
+readonly class UserDTO
+{
+    public function __construct(
+        public int $id,
+        public string $name,
+        public ?string $email = null,
+    ) {}
+}
+
+// Enumを積極的に使用
+enum Status: string
+{
+    case PENDING = 'pending';
+    case ACTIVE = 'active';
+    case INACTIVE = 'inactive';
+}
+
+// Union typesで柔軟な型定義
+function process(string|array $input): array|false
+{
+    // ...
+}
+
+// Intersection typesで厳密な型制約
+function handle(Countable&Iterator $collection): void
+{
+    // ...
+}
+```
 
 ## 環境変数
 
