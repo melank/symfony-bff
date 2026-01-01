@@ -19,7 +19,7 @@ cp .env.dev .env.local
 # .env.local を編集してGRAPHQL_ENDPOINTを設定
 
 # Dockerコンテナを起動
-docker-compose up -d
+docker compose up -d
 ```
 
 ## アクセス
@@ -46,16 +46,16 @@ curl -X POST http://localhost:8080/api/graphql \
 
 ```bash
 # コンテナ起動
-docker-compose up -d
+docker compose up -d
 
 # ログ確認
-docker-compose logs -f
+docker compose logs -f
 
 # PHPコンテナに入る
-docker-compose exec php sh
+docker compose exec php bash
 
 # コンテナ停止
-docker-compose down
+docker compose down
 ```
 
 ## ディレクトリ構成

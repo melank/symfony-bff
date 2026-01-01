@@ -86,7 +86,7 @@ public function someAction(): JsonResponse
 ## Docker環境
 
 - 開発はDocker環境で行う
-- `docker-compose exec php` でPHPコンテナに入る
+- `docker compose exec php bash` でPHPコンテナに入る
 - Composerコマンドはコンテナ内で実行
 
 ## 禁止事項
@@ -98,6 +98,6 @@ public function someAction(): JsonResponse
 
 ## 推奨事項
 
-- 変更前に `docker-compose ps` でコンテナ状態を確認
+- 変更前に `docker compose ps` でコンテナ状態を確認
 - 大きな変更前に `git status` で状態を確認
 - キャッシュ問題が疑われる場合は `php bin/console cache:clear`

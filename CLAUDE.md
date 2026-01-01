@@ -17,10 +17,10 @@ Symfony 8.0ベースのBFF（Backend for Frontend）アプリケーション。�
 
 ```bash
 # Docker環境
-docker-compose up -d          # 起動
-docker-compose down           # 停止
-docker-compose logs -f        # ログ確認
-docker-compose exec php sh    # PHPコンテナに入る
+docker compose up -d          # 起動
+docker compose down           # 停止
+docker compose logs -f        # ログ確認
+docker compose exec php bash  # PHPコンテナに入る
 
 # Symfonyコマンド（コンテナ内）
 php bin/console cache:clear   # キャッシュクリア
@@ -48,7 +48,7 @@ composer require <package>    # パッケージ追加
 - `src/Controller/BffController.php` - BFFプロキシコントローラー
 - `src/Controller/HealthController.php` - ヘルスチェック
 - `config/services.yaml` - サービス定義
-- `docker-compose.yml` - Docker構成
+- `compose.yaml` - Docker Compose構成
 
 ## コーディング規約
 
